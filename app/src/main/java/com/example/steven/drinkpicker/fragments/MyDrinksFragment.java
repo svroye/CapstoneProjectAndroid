@@ -2,6 +2,7 @@ package com.example.steven.drinkpicker.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.steven.drinkpicker.R;
+import com.example.steven.drinkpicker.adapters.MyDrinkRecyclerViewAdapter;
 import com.example.steven.drinkpicker.fragments.dummy.DummyContent;
 import com.example.steven.drinkpicker.fragments.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -29,6 +29,8 @@ public class MyDrinksFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+
+    private FloatingActionButton fab;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,7 +61,15 @@ public class MyDrinksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_drink_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_drinks, container, false);
+
+        fab = view.findViewById(R.id.fab_mydrinks);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onFabMyDrinksClicked();
+            }
+        });
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -79,12 +89,12 @@ public class MyDrinksFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -105,6 +115,6 @@ public class MyDrinksFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onFabMyDrinksClicked();
     }
 }

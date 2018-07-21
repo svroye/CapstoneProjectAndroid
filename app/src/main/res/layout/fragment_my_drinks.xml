@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.BloodAlcoholConcentrationFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="com.example.steven.drinkpicker.fragments.MyDrinksFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="BAC" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".fragments.MyDrinksFragment"
+        tools:listitem="@layout/fragment_drink" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_bac"
+        android:id="@+id/fab_mydrinks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

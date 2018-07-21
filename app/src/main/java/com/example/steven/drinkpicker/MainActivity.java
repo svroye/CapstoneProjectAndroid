@@ -1,5 +1,8 @@
 package com.example.steven.drinkpicker;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,7 +17,9 @@ import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragmen
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity
+            implements BloodAlcoholConcentrationFragment.OnFragmentInteractionListener,
+        MyDrinksFragment.OnListFragmentInteractionListener{
 
     // click listener for the bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -58,4 +63,17 @@ public class MainActivity extends AppCompatActivity{
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    @Override
+    public void onFabBacClicked() {
+        Intent intent = new Intent(MainActivity.this, AddDrinkBACActivity.class);
+        startActivity(intent);
+        overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+    }
+
+    @Override
+    public void onFabMyDrinksClicked() {
+        Intent intent = new Intent(MainActivity.this, AddDrinkToListActivity.class);
+        startActivity(intent);
+        overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+    }
 }
