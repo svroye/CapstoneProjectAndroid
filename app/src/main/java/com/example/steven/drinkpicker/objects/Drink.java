@@ -6,11 +6,11 @@ package com.example.steven.drinkpicker.objects;
 public class Drink {
 
     private String name;
-    private double alcoholConcentration;
+    private double alcoholPercentage;
 
-    public Drink(String name, double alcoholConcentration) {
+    public Drink(String name, double alcoholPercentage) {
         this.name = name;
-        this.alcoholConcentration = alcoholConcentration;
+        this.alcoholPercentage = alcoholPercentage;
     }
 
     public String getName() {
@@ -22,10 +22,10 @@ public class Drink {
     }
 
     public double getAlcoholConcentration() {
-        return alcoholConcentration;
+        return alcoholPercentage;
     }
 
     public void setAlcoholConcentration(double alcoholConcentration) {
-        this.alcoholConcentration = alcoholConcentration;
+        this.alcoholPercentage = alcoholConcentration;
     }
 }

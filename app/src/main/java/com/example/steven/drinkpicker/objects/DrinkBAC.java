@@ -8,8 +8,8 @@ public class DrinkBAC extends Drink {
     private double volume;
     private long startTime;
 
-    public DrinkBAC(String name, double alcoholConcentration, double volume, long startTime) {
-        super(name, alcoholConcentration);
+    public DrinkBAC(String name, double alcoholPercentage, double volume, long startTime) {
+        super(name, alcoholPercentage);
         this.volume = volume;
         this.startTime = startTime;
     }
