@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddDrinkBACActivity">
+            android:name=".AddDrinkBACActivity"
+            android:label="">
         </activity>
         <activity
             android:name=".AddDrinkToListActivity">

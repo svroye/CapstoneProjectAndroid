@@ -1,8 +1,23 @@
 <resources>
+    <!-- app and activities labels -->
     <string name="app_name">DrinkPicker</string>
+    <string name="add_drink_bac_activity">Add drink</string>
+    <string name="modify_drink_bac_activity">Add drink</string>
+    <string name="add_drink_list_activity">Add drink</string>
+    <string name="modify_drink_list_activity">Add drink</string>
+
+
+
     <string name="title_discover">Discover</string>
     <string name="title_my_drinks">My Drinks</string>
     <string name="title_blood_alcohol_concentration">BAC</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- BAC -->
+    <string name="hint_drink_name">name</string>
+    <string name="hint_drink_alcohol_percentage">alcohol percentage</string>
+    <string name="hint_drink_volume">volume</string>
+    <string name="hint_drink_time">time</string>
+
 </resources>
