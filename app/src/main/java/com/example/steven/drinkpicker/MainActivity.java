@@ -17,9 +17,16 @@ import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragmen
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
             implements BloodAlcoholConcentrationFragment.OnFragmentInteractionListener,
         MyDrinksFragment.OnListFragmentInteractionListener{
+
+
+    @BindView(R.id.my_toolbar) Toolbar myToolbar;
+    @BindView(R.id.navigation) BottomNavigationView navigation;
 
     // click listener for the bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -53,13 +60,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         // set the toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        // set the bottom navigation and add a listener
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        // add listener to the bottom navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

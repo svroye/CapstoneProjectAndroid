@@ -11,6 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.steven.drinkpicker.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -20,6 +23,10 @@ import com.example.steven.drinkpicker.R;
  * create an instance of this fragment.
  */
 public class BloodAlcoholConcentrationFragment extends Fragment {
+
+
+    @BindView(R.id.fab_bac) FloatingActionButton fab;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +37,6 @@ public class BloodAlcoholConcentrationFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private FloatingActionButton fab;
 
     public BloodAlcoholConcentrationFragment() {
         // Required empty public constructor
@@ -68,8 +74,8 @@ public class BloodAlcoholConcentrationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blood_alcohol_concentration, container, false);
+        ButterKnife.bind(this, view);
 
-        fab = view.findViewById(R.id.fab_bac);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,13 +110,8 @@ public class BloodAlcoholConcentrationFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFabBacClicked();
     }
 }

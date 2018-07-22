@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".AddDrinkBACActivity">
+    tools:context=".AddDrinkToListActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_bac"
+        android:id="@+id/toolbar_list"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -22,14 +22,14 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/bac_name_textInputLayout"
+        android:id="@+id/list_name_textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/edit_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_bac">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_list">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/bac_name_textInputEditText"
+            android:id="@+id/list_name_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_drink_name"/>
@@ -37,14 +37,14 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/bac_alcohol_percentage_textInputLayout"
+        android:id="@+id/list_alcohol_percentage_textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/edit_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/bac_name_textInputLayout">
+        app:layout_constraintTop_toBottomOf="@id/list_name_textInputLayout">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/bac_alcohol_percentage_textInputEditText"
+            android:id="@+id/list_alcohol_percentage_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_drink_alcohol_percentage"/>
@@ -52,35 +52,28 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/bac_volume_textInputLayout"
+        android:id="@+id/list_location_textInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/edit_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/bac_alcohol_percentage_textInputLayout">
+        app:layout_constraintTop_toBottomOf="@id/list_alcohol_percentage_textInputLayout">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/bac_volume_textInputEditText"
+            android:id="@+id/list_location_textInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_drink_volume"/>
 
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/bac_start_time_textInputLayout"
-        android:layout_width="match_parent"
+    <RatingBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/edit_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/bac_volume_textInputLayout">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/bac_start_time_textInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_drink_time"/>
-
-    </android.support.design.widget.TextInputLayout>
-
-
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="0.5"
+        app:layout_constraintTop_toBottomOf="@id/list_location_textInputLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
