@@ -5,11 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
+import com.example.steven.drinkpicker.adapters.DrinksBacRecyclerViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +30,8 @@ public class BloodAlcoholConcentrationFragment extends Fragment {
 
 
     @BindView(R.id.fab_bac) FloatingActionButton fab;
+    @BindView(R.id.bac_value) TextView bacValue;
+    @BindView(R.id.bac_recyclerView) RecyclerView recyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,6 +88,11 @@ public class BloodAlcoholConcentrationFragment extends Fragment {
                 mListener.onFabBacClicked();
             }
         });
+
+        DrinksBacRecyclerViewAdapter adapter = new DrinksBacRecyclerViewAdapter();
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

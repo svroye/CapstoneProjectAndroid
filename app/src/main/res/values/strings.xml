@@ -7,7 +7,6 @@
     <string name="modify_drink_list_activity">Add drink</string>
 
 
-
     <string name="title_discover">Discover</string>
     <string name="title_my_drinks">My Drinks</string>
     <string name="title_blood_alcohol_concentration">BAC</string>
@@ -15,13 +14,16 @@
 
     <!-- BAC -->
     <string name="hint_drink_name">name</string>
-    <string name="hint_drink_alcohol_percentage">alcohol percentage</string>
-    <string name="hint_drink_volume">volume</string>
-    <string name="hint_drink_time">time</string>
+    <string name="hint_drink_alcohol_percentage">alcohol percentage (in %)</string>
+    <string name="hint_drink_volume">volume (in cl)</string>
+    <string name="time_format_string">%02d:%02d</string>
 
 
     <!-- menu items -->
     <string name="menu_action_save">Save</string>
     <string name="menu_action_image">Camera/Gallery</string>
+
+    <string name="bac_select_time">Start time of the drink</string>
+    <string name="bac_title">Your current blood alcohol concentration is</string>
 
 </resources>

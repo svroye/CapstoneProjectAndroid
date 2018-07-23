@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.steven.drinkpicker.R;
+import com.example.steven.drinkpicker.adapters.DrinksMyListRecyclerViewAdapter;
 import com.example.steven.drinkpicker.adapters.MyDrinkRecyclerViewAdapter;
 import com.example.steven.drinkpicker.fragments.dummy.DummyContent;
 import com.example.steven.drinkpicker.fragments.dummy.DummyContent.DummyItem;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A fragment representing a list of Items.
@@ -24,13 +28,15 @@ import com.example.steven.drinkpicker.fragments.dummy.DummyContent.DummyItem;
  */
 public class MyDrinksFragment extends Fragment {
 
+    @BindView(R.id.mydrinks_recyclerview) RecyclerView recyclerView;
+    @BindView(R.id.fab_mydrinks) FloatingActionButton fab;
+
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    private FloatingActionButton fab;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,14 +68,21 @@ public class MyDrinksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_drinks, container, false);
+        ButterKnife.bind(this, view);
 
-        fab = view.findViewById(R.id.fab_mydrinks);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onFabMyDrinksClicked();
             }
         });
+
+        DrinksMyListRecyclerViewAdapter adapter = new DrinksMyListRecyclerViewAdapter();
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
+                false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -114,7 +127,6 @@ public class MyDrinksFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFabMyDrinksClicked();
     }
 }

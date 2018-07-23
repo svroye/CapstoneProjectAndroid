@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.BloodAlcoholConcentrationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/bac_explanation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="BAC" />
+        android:layout_height="wrap_content"
+        android:text="@string/bac_title"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/bac_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="48sp"
+        android:text="48"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bac_explanation"/>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bac_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bac_value">
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_bac"
@@ -21,6 +42,8 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:elevation="6dp"
         android:src="@android:drawable/ic_input_add"
-        android:tint="@color/colorTextIcons"/>
+        android:tint="@color/colorTextIcons"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
