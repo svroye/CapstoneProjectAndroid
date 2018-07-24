@@ -26,6 +26,14 @@
         <activity
             android:name=".AddDrinkToListActivity">
         </activity>
+        
+        <provider
+            android:authorities="com.example.steven.drinkpicker"
+            android:name="com.example.steven.drinkpicker.providers.DrinkBacContentProvider"
+            android:exported="false">
+        </provider>
+
     </application>
+    
 
 </manifest>
