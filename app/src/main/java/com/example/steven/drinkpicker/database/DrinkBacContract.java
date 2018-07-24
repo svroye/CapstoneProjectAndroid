@@ -11,7 +11,7 @@ public class DrinkBacContract {
 
     public static final Uri BASE_CONTENT_URI = Uri.parse(SCHEME + AUTHORITHY);
 
-    public static final String PATH_DRINKS = "drinks-bac";
+    public static final String PATH_DRINKS = "drinksbac";
 
     public static final class DrinkBacEntry implements BaseColumns {
 
@@ -21,7 +21,7 @@ public class DrinkBacContract {
                 .build();
 
         // table name and column names
-        public static final String TABLE_NAME = "drinks-bac";
+        public static final String TABLE_NAME = "drinksbac";
         public static final String COLUMN_DRINK_NAME = "name";
         public static final String COLUMN_ALCOHOL_PERCENTAGE = "alcoholPercentage";
         public static final String COLUMN_DRINK_VOLUME = "volume";

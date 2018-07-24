@@ -1,5 +1,7 @@
 package com.example.steven.drinkpicker;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,8 +40,20 @@ public class AddDrinkToListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == android.R.id.home) {
-            onBackPressed();
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED ,returnIntent);
+            finish();
+            overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
+        } else if (itemId == R.id.list_menu_save) {
+            finish();
+            overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         }
         return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
     }
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragment;
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
@@ -85,6 +86,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case ADD_DRINK_BAC_REQUEST_CODE:
+                if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "CANCEL", Toast.LENGTH_SHORT).show();
+                }
+        }
     }
 }

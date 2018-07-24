@@ -1,5 +1,6 @@
 package com.example.steven.drinkpicker.adapters;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,18 +10,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
+import com.example.steven.drinkpicker.database.DrinkBacContract;
 
 import java.util.ArrayList;
 
 public class DrinksBacRecyclerViewAdapter extends
         RecyclerView.Adapter<DrinksBacRecyclerViewAdapter.DrinkViewHolder> {
 
-    ArrayList<Integer> numbers = new ArrayList<>();
+    private Cursor data;
 
-    public DrinksBacRecyclerViewAdapter() {
-        for (int i = 0; i < 10; i++) {
-            this.numbers.add(i);
-        }
+    public DrinksBacRecyclerViewAdapter(Cursor cursor) {
+        this.data = cursor;
     }
 
     @NonNull
@@ -33,14 +33,21 @@ public class DrinksBacRecyclerViewAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull DrinkViewHolder drinkViewHolder, int i) {
-        Log.d("ADAPTER", "POS= " + this.numbers.get(i));
-        drinkViewHolder.timeTextView.setText("" + this.numbers.get(i));
+        data.moveToPosition(i);
+        drinkViewHolder.nameTextView.setText(data.getString(data.getColumnIndex(
+                DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_NAME)));
+        drinkViewHolder.percentageTextView.setText(data.getString(data.getColumnIndex(
+                DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE)));
+        drinkViewHolder.volumeTextView.setText(data.getString(data.getColumnIndex(
+                DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_VOLUME)));
+        drinkViewHolder.timeTextView.setText(data.getString(data.getColumnIndex(
+                DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME)));
     }
 
     @Override
     public int getItemCount() {
-        if (null == numbers) return 0;
-        return numbers.size();
+        if (null == data) return 0;
+        return data.getCount();
     }
 
     class DrinkViewHolder extends RecyclerView.ViewHolder {

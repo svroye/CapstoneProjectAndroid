@@ -15,27 +15,23 @@
             android:id="@+id/drink_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:text="HALLO" />
+            android:textSize="24sp"/>
 
         <TextView
             android:id="@+id/drink_percentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="5.0%" />
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/drink_volume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="HALLO" />
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
     <TextView
-        android:text="50"
         android:id="@+id/drink_time"
         android:layout_width="48dp"
         android:layout_height="96dp" />

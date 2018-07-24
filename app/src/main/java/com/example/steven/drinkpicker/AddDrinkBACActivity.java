@@ -1,5 +1,11 @@
 package com.example.steven.drinkpicker;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.example.steven.drinkpicker.asycntasks.AsyncTaskCompleteListener;
+import com.example.steven.drinkpicker.database.DrinkBacContract;
 import com.example.steven.drinkpicker.fragments.TimePickerFragment;
 
 import java.util.Calendar;
@@ -21,7 +30,7 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class AddDrinkBACActivity extends AppCompatActivity
-    implements TimePickerFragment.OnFragmentInteractionListener{
+    implements TimePickerFragment.OnFragmentInteractionListener {
 
     @BindView(R.id.toolbar_bac)  Toolbar toolbar;
     @BindView(R.id.bac_name_textInputEditText) TextInputEditText nameEditText;
@@ -54,12 +63,22 @@ public class AddDrinkBACActivity extends AppCompatActivity
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
         if (itemId == android.R.id.home) {
-            onBackPressed();
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED ,returnIntent);
+            finish();
+            overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         } else if (itemId == R.id.bac_menu_save) {
+            saveDrink();
             finish();
             overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         }
@@ -119,7 +138,6 @@ public class AddDrinkBACActivity extends AppCompatActivity
     }
 
     void setSaveButtonState(){
-        Log.d("AddBacDrink", name + "\t" + percentage + "\t" + volume + "\t" + time );
         if (name != null && percentage != 0.0 && volume != 0.0 && time != null) {
             isSaveButtonEnabled = true;
         } else {
@@ -127,4 +145,18 @@ public class AddDrinkBACActivity extends AppCompatActivity
         }
         invalidateOptionsMenu();
     }
+
+    void saveDrink(){
+        ContentResolver  resolver = getContentResolver();
+        ContentValues cv = new ContentValues();
+        cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_NAME, name);
+        cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE, percentage);
+        cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_VOLUME, volume);
+        cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME, time);
+        Uri returnUri = resolver.insert(DrinkBacContract.DrinkBacEntry.CONTENT_URI, cv);
+        if (returnUri != null) {
+            Toast.makeText(this, "" + returnUri, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
