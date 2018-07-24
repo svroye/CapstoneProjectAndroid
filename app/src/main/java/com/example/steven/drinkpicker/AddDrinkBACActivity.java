@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.steven.drinkpicker.fragments.TimePickerFragment;
 
@@ -61,7 +60,8 @@ public class AddDrinkBACActivity extends AppCompatActivity
         if (itemId == android.R.id.home) {
             onBackPressed();
         } else if (itemId == R.id.bac_menu_save) {
-
+            finish();
+            overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         }
         return true;
     }

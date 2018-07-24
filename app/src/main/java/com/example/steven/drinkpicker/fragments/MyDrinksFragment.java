@@ -15,7 +15,6 @@ import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.adapters.DrinksMyListRecyclerViewAdapter;
 import com.example.steven.drinkpicker.adapters.MyDrinkRecyclerViewAdapter;
 import com.example.steven.drinkpicker.fragments.dummy.DummyContent;
-import com.example.steven.drinkpicker.fragments.dummy.DummyContent.DummyItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

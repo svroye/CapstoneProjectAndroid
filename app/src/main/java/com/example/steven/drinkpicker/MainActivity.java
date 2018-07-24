@@ -1,17 +1,14 @@
 package com.example.steven.drinkpicker;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragment;
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
@@ -27,6 +24,9 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.my_toolbar) Toolbar myToolbar;
     @BindView(R.id.navigation) BottomNavigationView navigation;
+
+    public static final int ADD_DRINK_BAC_REQUEST_CODE = 200;
+    public static final int ADD_DRINK_LIST_REQUEST_CODE = 300;
 
     // click listener for the bottom navigation
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -72,14 +72,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFabBacClicked() {
         Intent intent = new Intent(MainActivity.this, AddDrinkBACActivity.class);
-        startActivity(intent);
-        overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+        startActivityForResult(intent, ADD_DRINK_BAC_REQUEST_CODE);
+        overridePendingTransition( R.anim.slide_bottom_to_top, R.anim.stay);
     }
 
     @Override
     public void onFabMyDrinksClicked() {
         Intent intent = new Intent(MainActivity.this, AddDrinkToListActivity.class);
-        startActivity(intent);
-        overridePendingTransition( R.anim.slide_in, R.anim.slide_out );
+        startActivityForResult(intent, ADD_DRINK_LIST_REQUEST_CODE);
+        overridePendingTransition( R.anim.slide_bottom_to_top, R.anim.stay);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
