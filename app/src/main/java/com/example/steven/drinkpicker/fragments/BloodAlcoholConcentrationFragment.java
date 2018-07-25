@@ -1,23 +1,30 @@
 package com.example.steven.drinkpicker.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.adapters.DrinksBacRecyclerViewAdapter;
-import com.example.steven.drinkpicker.asycntasks.AsyncTaskCompleteListener;
-import com.example.steven.drinkpicker.asycntasks.DrinkBacAsyncTask;
+import com.example.steven.drinkpicker.asynctasks.AsyncTaskCompleteListener;
+import com.example.steven.drinkpicker.asynctasks.DrinkBacAsyncTask;
+import com.example.steven.drinkpicker.bachelpers.BacUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,9 +37,9 @@ public class BloodAlcoholConcentrationFragment extends Fragment
     @BindView(R.id.bac_value) TextView bacValue;
     @BindView(R.id.bac_recyclerView) RecyclerView recyclerView;
 
+
     private OnFragmentInteractionListener mListener;
     private DrinksBacRecyclerViewAdapter adapter;
-    private Cursor cursor;
 
     public BloodAlcoholConcentrationFragment() {
         // Required empty public constructor
@@ -56,15 +63,16 @@ public class BloodAlcoholConcentrationFragment extends Fragment
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         (new DrinkBacAsyncTask(getContext(), this)).execute();
+        BacUtils.calculateBac(getContext());
         return view;
     }
 
+
+
     @Override
     public void onTaskComplete(Cursor result) {
-        cursor = result;
         adapter = new DrinksBacRecyclerViewAdapter(result);
         recyclerView.setAdapter(adapter);
-        Log.d(getClass().getSimpleName().toString(), "CURSOR COUNT: " + result.getCount());
     }
 
     /**
@@ -93,4 +101,6 @@ public class BloodAlcoholConcentrationFragment extends Fragment
         super.onDetach();
         mListener = null;
     }
+
+
 }

@@ -25,5 +25,16 @@
 
     <string name="bac_select_time">Start time of the drink</string>
     <string name="bac_title">Your current blood alcohol concentration is</string>
+    <string name="gender_label">Gender</string>
+    <string name="gender_male_label">Male</string>
+    <string name="gender_female_label">Female</string>
+    <string name="weight_label">weight</string>
+    <string name="weight_hint">e.g. 63.0kg</string>
+
+
+    <!-- keys -->
+    <string name="key_ismale" translatable="false">isMale</string>
+    <string name="key_weight" translatable="false">weight</string>
+    <string name="title_settings">Settings</string>
 
 </resources>

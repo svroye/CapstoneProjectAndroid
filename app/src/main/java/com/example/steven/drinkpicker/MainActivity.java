@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragment;
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment;
+import com.example.steven.drinkpicker.fragments.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +51,11 @@ public class MainActivity extends AppCompatActivity
                 case R.id.navigation_blood_alcohol_concentration:
                     fm.beginTransaction()
                             .replace(R.id.fragment_container, new BloodAlcoholConcentrationFragment())
+                            .commit();
+                    return true;
+                case R.id.navigation_settings:
+                    fm.beginTransaction()
+                            .replace(R.id.fragment_container, new SettingsFragment())
                             .commit();
                     return true;
             }

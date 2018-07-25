@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
@@ -18,11 +17,12 @@ import android.view.MenuItem;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.steven.drinkpicker.asycntasks.AsyncTaskCompleteListener;
 import com.example.steven.drinkpicker.database.DrinkBacContract;
 import com.example.steven.drinkpicker.fragments.TimePickerFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,11 +55,8 @@ public class AddDrinkBACActivity extends AppCompatActivity
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_close_white_24);
         setTitle(R.string.add_drink_bac_activity);
         Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR);
-        int min = c.get(Calendar.MINUTE);
-        time = getString(R.string.time_format_string, hour, min);
 
-        timeEditText.setText(time);
+
     }
 
     @Override
@@ -102,9 +99,27 @@ public class AddDrinkBACActivity extends AppCompatActivity
 
     @Override
     public void onTimeSelected(TimePicker timepicker, int hour, int min) {
-        time = getString(R.string.time_format_string, hour, min);
+        Calendar calendar = Calendar.getInstance();
+        // get current year for comparison
+        long currentTime = calendar.getTimeInMillis();
+
+        // set the calendar based on the picked time and the date from the current day
+        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DATE), hour, min);
+
+        // get the time entered by the user from the calendar in ms
+        long startTime = calendar.getTimeInMillis();
+
+        // if the start time is greater than the current time, the drink was consumed yesterday and
+        // we have to subtract 1 day from the instance
+        if (startTime > currentTime) {
+            calendar.add(Calendar.DATE, -1);
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        String time = simpleDateFormat.format(calendar.getTime());
+        //time = getString(R.string.time_format_string, hour, min);
         timeEditText.setText(time);
-        setSaveButtonState();
+        //setSaveButtonState();
     }
 
     @OnTextChanged(R.id.bac_name_textInputEditText)
