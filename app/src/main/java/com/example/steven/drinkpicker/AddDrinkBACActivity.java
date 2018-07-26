@@ -11,12 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.steven.drinkpicker.bachelpers.DateTimeUtils;
 import com.example.steven.drinkpicker.database.DrinkBacContract;
 import com.example.steven.drinkpicker.fragments.TimePickerFragment;
 
@@ -43,6 +45,7 @@ public class AddDrinkBACActivity extends AppCompatActivity
     private double percentage;
     private double volume;
     private String time;
+    private long timeInMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,18 +111,17 @@ public class AddDrinkBACActivity extends AppCompatActivity
                 calendar.get(Calendar.DATE), hour, min);
 
         // get the time entered by the user from the calendar in ms
-        long startTime = calendar.getTimeInMillis();
+        timeInMillis = calendar.getTimeInMillis();
 
         // if the start time is greater than the current time, the drink was consumed yesterday and
         // we have to subtract 1 day from the instance
-        if (startTime > currentTime) {
+        if (timeInMillis > currentTime) {
             calendar.add(Calendar.DATE, -1);
+            timeInMillis = calendar.getTimeInMillis();
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        String time = simpleDateFormat.format(calendar.getTime());
-        //time = getString(R.string.time_format_string, hour, min);
+        time = DateTimeUtils.getFormattedDate(timeInMillis);
         timeEditText.setText(time);
-        //setSaveButtonState();
+        setSaveButtonState();
     }
 
     @OnTextChanged(R.id.bac_name_textInputEditText)
@@ -153,6 +155,7 @@ public class AddDrinkBACActivity extends AppCompatActivity
     }
 
     void setSaveButtonState(){
+        Log.d("ADDDRINKBAC", name + "\t" + percentage + "\t" + volume + "\t" + time);
         if (name != null && percentage != 0.0 && volume != 0.0 && time != null) {
             isSaveButtonEnabled = true;
         } else {
@@ -167,7 +170,7 @@ public class AddDrinkBACActivity extends AppCompatActivity
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_NAME, name);
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE, percentage);
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_VOLUME, volume);
-        cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME, time);
+        cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME, timeInMillis);
         Uri returnUri = resolver.insert(DrinkBacContract.DrinkBacEntry.CONTENT_URI, cv);
         if (returnUri != null) {
             Toast.makeText(this, "" + returnUri, Toast.LENGTH_SHORT).show();

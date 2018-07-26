@@ -19,7 +19,8 @@ public class DrinkBacAsyncTask extends AsyncTask<Void, Void, Cursor> {
     @Override
     protected Cursor doInBackground(Void... voids) {
         Cursor cursor = context.getContentResolver().query(DrinkBacContract.DrinkBacEntry.CONTENT_URI,
-                null, null, null, null);
+                null, null, null,
+                DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME + " DESC");
         return cursor;
     }
 

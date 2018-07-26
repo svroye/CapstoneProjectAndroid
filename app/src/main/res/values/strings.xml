@@ -31,6 +31,7 @@
     <string name="weight_label">weight</string>
     <string name="weight_hint">e.g. 63.0kg</string>
 
+    <string name="bac_value">%.5f</string>
 
     <!-- keys -->
     <string name="key_ismale" translatable="false">isMale</string>

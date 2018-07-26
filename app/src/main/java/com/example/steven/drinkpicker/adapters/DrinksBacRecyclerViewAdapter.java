@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
+import com.example.steven.drinkpicker.bachelpers.DateTimeUtils;
 import com.example.steven.drinkpicker.database.DrinkBacContract;
 
 import java.util.ArrayList;
@@ -40,8 +41,9 @@ public class DrinksBacRecyclerViewAdapter extends
                 DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE)));
         drinkViewHolder.volumeTextView.setText(data.getString(data.getColumnIndex(
                 DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_VOLUME)));
-        drinkViewHolder.timeTextView.setText(data.getString(data.getColumnIndex(
+        String time = DateTimeUtils.getFormattedDate(data.getLong(data.getColumnIndex(
                 DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME)));
+        drinkViewHolder.timeTextView.setText(time);
     }
 
     @Override

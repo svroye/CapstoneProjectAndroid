@@ -21,7 +21,7 @@ public class DrinkBacDBHelper extends SQLiteOpenHelper {
                 DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_NAME + " TEXT NOT NULL, " +
                 DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE + " REAL NOT NULL, " +
                 DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_VOLUME + " REAL NOT NULL, " +
-                DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME + " TEXT NOT NULL" +
+                DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME + " REAL NOT NULL" +
                 ");";
         sqLiteDatabase.execSQL(SQL_CREATE_DRINK_BAC_TABLE);
     }
