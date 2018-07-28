@@ -57,9 +57,6 @@ public class AddDrinkBACActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_close_white_24);
         setTitle(R.string.add_drink_bac_activity);
-        Calendar c = Calendar.getInstance();
-
-
     }
 
     @Override
@@ -76,11 +73,11 @@ public class AddDrinkBACActivity extends AppCompatActivity
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_CANCELED ,returnIntent);
             finish();
-            overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
+            //overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         } else if (itemId == R.id.bac_menu_save) {
             saveDrink();
             finish();
-            overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
+            //overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         }
         return true;
     }
@@ -165,7 +162,7 @@ public class AddDrinkBACActivity extends AppCompatActivity
     }
 
     void saveDrink(){
-        ContentResolver  resolver = getContentResolver();
+        ContentResolver resolver = getContentResolver();
         ContentValues cv = new ContentValues();
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_NAME, name);
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE, percentage);

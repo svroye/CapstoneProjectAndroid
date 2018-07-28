@@ -2,11 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/list_menu_image"
-        android:title="@string/menu_action_image"
-        android:icon="@drawable/ic_action_image"
-        app:showAsAction="ifRoom" />
+
 
     <item
         android:id="@+id/list_menu_save"

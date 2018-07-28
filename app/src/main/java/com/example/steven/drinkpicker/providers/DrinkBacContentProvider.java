@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.steven.drinkpicker.database.DrinkBacContract;
 import com.example.steven.drinkpicker.database.DrinkBacDBHelper;
@@ -96,7 +97,6 @@ public class DrinkBacContentProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
-
         getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
     }

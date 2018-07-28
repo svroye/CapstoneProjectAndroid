@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+
+import com.example.steven.drinkpicker.fragments.ImageSelectionFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +19,9 @@ import butterknife.ButterKnife;
 public class AddDrinkToListActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_list) Toolbar myToolbar;
+
+    @BindView(R.id.location_container) RelativeLayout locationContainer;
+    @BindView(R.id.image_container) RelativeLayout imageContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,20 @@ public class AddDrinkToListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.baseline_close_white_24);
         setTitle(R.string.add_drink_list_activity);
+
+        locationContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        imageContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImageSelectionFragment.newInstance(2).show(getSupportFragmentManager(), "imagefragment");
+            }
+        });
     }
 
     @Override

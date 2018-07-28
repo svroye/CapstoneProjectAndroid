@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/list_item_spacing_half"
+    android:paddingLeft="@dimen/list_item_spacing"
+    android:paddingRight="@dimen/list_item_spacing"
+    android:paddingTop="@dimen/list_item_spacing_half"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large">
+
+
+    <ImageView
+        android:src="@drawable/ic_action_image"
+        android:id="@+id/option_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"/>
+
+    <TextView
+        android:text="CAMERA"
+        android:id="@+id/option_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="@dimen/left_margin"
+        android:textSize="24sp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"/>
+
+
+</LinearLayout>

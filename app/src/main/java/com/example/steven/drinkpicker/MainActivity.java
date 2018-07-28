@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
             case ADD_DRINK_BAC_REQUEST_CODE:
-                if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "CANCEL", Toast.LENGTH_SHORT).show();
+                if (resultCode == RESULT_OK) {
+
                 }
         }
     }
