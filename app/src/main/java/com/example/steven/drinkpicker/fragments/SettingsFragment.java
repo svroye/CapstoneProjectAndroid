@@ -1,5 +1,6 @@
 package com.example.steven.drinkpicker.fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,10 +16,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.steven.drinkpicker.LoginActivity;
 import com.example.steven.drinkpicker.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SettingsFragment extends Fragment {
 
@@ -96,6 +100,12 @@ public class SettingsFragment extends Fragment {
         boolean isMale = sp.getBoolean(getString(R.string.key_ismale), false);
         radioMale.setChecked(isMale);
         radioFemale.setChecked(!isMale);
+    }
+
+    @OnClick(R.id.log_out)
+    public void logOut() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
 

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.steven.drinkpicker.firebasehelpers.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragment;
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment;

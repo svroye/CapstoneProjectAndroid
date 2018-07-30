@@ -11,7 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.example.steven.drinkpicker.firebasehelpers.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.ImageSelectionFragment;
+import com.example.steven.drinkpicker.objects.DrinkDiscovery;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +58,7 @@ public class AddDrinkToListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_add_drink_list, menu);
-        menu.findItem(R.id.list_menu_save).setEnabled(false);
+        //menu.findItem(R.id.list_menu_save).setEnabled(false);
         return true;
     }
 
@@ -66,10 +71,18 @@ public class AddDrinkToListActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         } else if (itemId == R.id.list_menu_save) {
+            saveDrinkEntry();
             finish();
             overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         }
         return true;
+    }
+
+    private void saveDrinkEntry() {
+        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseUtils.addDrinkForUser(user,
+                new DrinkDiscovery("Jupiler", 5.0, 5.0),
+                "user1");
     }
 
     @Override

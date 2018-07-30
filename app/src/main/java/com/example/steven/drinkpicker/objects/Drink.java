@@ -8,6 +8,9 @@ public class Drink {
     private String name;
     private double alcoholPercentage;
 
+    public Drink() {
+    }
+
     public Drink(String name, double alcoholPercentage) {
         this.name = name;
         this.alcoholPercentage = alcoholPercentage;
