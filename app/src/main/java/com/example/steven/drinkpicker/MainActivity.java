@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity
         // set the toolbar
         setSupportActionBar(myToolbar);
 
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .add(R.id.fragment_container, new DiscoveryFragment())
+                .commit();
+
         // add listener to the bottom navigation
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

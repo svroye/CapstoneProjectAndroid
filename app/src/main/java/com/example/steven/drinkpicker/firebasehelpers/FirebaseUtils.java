@@ -11,7 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtils {
 
-    public static void addDrinkForUser(String user,DrinkDiscovery drink, String userId){
+    public static void addDrinkForUser(String user,DrinkDiscovery drink){
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         db.child("users").child(user).setValue(drink.getDrinkId());
         db.child("drinks").child(drink.getDrinkId()).setValue(drink);

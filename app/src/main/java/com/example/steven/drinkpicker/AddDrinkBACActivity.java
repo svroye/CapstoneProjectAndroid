@@ -152,7 +152,6 @@ public class AddDrinkBACActivity extends AppCompatActivity
     }
 
     void setSaveButtonState(){
-        Log.d("ADDDRINKBAC", name + "\t" + percentage + "\t" + volume + "\t" + time);
         if (name != null && percentage != 0.0 && volume != 0.0 && time != null) {
             isSaveButtonEnabled = true;
         } else {

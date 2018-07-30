@@ -2,13 +2,16 @@ package com.example.steven.drinkpicker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Rating;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import com.example.steven.drinkpicker.firebasehelpers.FirebaseUtils;
@@ -20,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
 
 public class AddDrinkToListActivity extends AppCompatActivity {
 
@@ -27,6 +31,14 @@ public class AddDrinkToListActivity extends AppCompatActivity {
 
     @BindView(R.id.location_container) RelativeLayout locationContainer;
     @BindView(R.id.image_container) RelativeLayout imageContainer;
+    @BindView(R.id.ratingBar) RatingBar ratingBar;
+    @BindView(R.id.list_name_textInputEditText) TextInputEditText nameEditText;
+    @BindView(R.id.list_alcohol_percentage_textInputEditText) TextInputEditText percentageEditText;
+
+    private boolean isSaveButtonEnabled;
+    private String name;
+    private double percentage;
+    private double rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +64,22 @@ public class AddDrinkToListActivity extends AppCompatActivity {
                 ImageSelectionFragment.newInstance(2).show(getSupportFragmentManager(), "imagefragment");
             }
         });
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                rating = (double) v;
+            }
+        });
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_add_drink_list, menu);
-        //menu.findItem(R.id.list_menu_save).setEnabled(false);
+        menu.findItem(R.id.list_menu_save).setEnabled(isSaveButtonEnabled);
         return true;
     }
 
@@ -80,9 +101,8 @@ public class AddDrinkToListActivity extends AppCompatActivity {
 
     private void saveDrinkEntry() {
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseUtils.addDrinkForUser(user,
-                new DrinkDiscovery("Jupiler", 5.0, 5.0),
-                "user1");
+        DrinkDiscovery drinkDiscovery = new DrinkDiscovery(name, percentage, rating);
+        FirebaseUtils.addDrinkForUser(user, drinkDiscovery);
     }
 
     @Override
@@ -90,4 +110,33 @@ public class AddDrinkToListActivity extends AppCompatActivity {
         super.finish();
         overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
     }
+
+    @OnTextChanged(R.id.list_name_textInputEditText)
+    void onNameChanged(){
+        name = nameEditText.getText().toString().trim();
+        setSaveButtonState();
+    }
+
+    @OnTextChanged(R.id.list_alcohol_percentage_textInputEditText)
+    void onPercentageChanged(){
+        try {
+            percentage = Double.parseDouble(percentageEditText.getText().toString().trim());
+        } catch (NullPointerException e) {
+            percentage = 0.0;
+        } catch (NumberFormatException e) {
+            percentage = 0.0;
+        }
+        setSaveButtonState();
+    }
+
+    private void setSaveButtonState() {
+        if (name != null && percentage != 0.0 ) {
+            isSaveButtonEnabled = true;
+        } else {
+            isSaveButtonEnabled = false;
+        }
+        invalidateOptionsMenu();
+    }
+
+
 }
