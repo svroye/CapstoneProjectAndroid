@@ -3,17 +3,14 @@ package com.example.steven.drinkpicker.adapters;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
-import com.example.steven.drinkpicker.bachelpers.DateTimeUtils;
+import com.example.steven.drinkpicker.utils.DateTimeUtils;
 import com.example.steven.drinkpicker.database.DrinkBacContract;
-
-import java.util.ArrayList;
 
 public class DrinksBacRecyclerViewAdapter extends
         RecyclerView.Adapter<DrinksBacRecyclerViewAdapter.DrinkViewHolder> {

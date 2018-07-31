@@ -2,7 +2,6 @@ package com.example.steven.drinkpicker;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Rating;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +13,10 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
-import com.example.steven.drinkpicker.firebasehelpers.FirebaseUtils;
+import com.example.steven.drinkpicker.utils.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.ImageSelectionFragment;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

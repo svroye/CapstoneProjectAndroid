@@ -2,19 +2,35 @@ package com.example.steven.drinkpicker.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.adapters.DrinksMyListRecyclerViewAdapter;
 import com.example.steven.drinkpicker.adapters.MyDrinkRecyclerViewAdapter;
-import com.example.steven.drinkpicker.fragments.dummy.DummyContent;
+import com.example.steven.drinkpicker.objects.Drink;
+import com.example.steven.drinkpicker.objects.DrinkDiscovery;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,13 +45,14 @@ public class MyDrinksFragment extends Fragment {
 
     @BindView(R.id.mydrinks_recyclerview) RecyclerView recyclerView;
     @BindView(R.id.fab_mydrinks) FloatingActionButton fab;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+
+    private List<DrinkDiscovery> drinksList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,30 +61,12 @@ public class MyDrinksFragment extends Fragment {
     public MyDrinksFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static MyDrinksFragment newInstance(int columnCount) {
-        MyDrinksFragment fragment = new MyDrinksFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_drinks, container, false);
         ButterKnife.bind(this, view);
+        showLoadingIndicator();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,25 +75,36 @@ public class MyDrinksFragment extends Fragment {
             }
         });
 
-        DrinksMyListRecyclerViewAdapter adapter = new DrinksMyListRecyclerViewAdapter();
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-                false);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(adapter);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
 
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyDrinkRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        drinksList = new ArrayList<>();
+        initializeData();
         return view;
+    }
+
+    private void initializeData() {
+        DatabaseReference db = mDatabase.child("users").child(mAuth.getCurrentUser().getUid());
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> data = dataSnapshot.getChildren();
+                for(DataSnapshot d: data) {
+                    DrinkDiscovery drinkDiscovery = d.getValue(DrinkDiscovery.class);
+                    drinksList.add(drinkDiscovery);
+                }
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
+                        false);
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(new MyDrinkRecyclerViewAdapter(drinksList, mListener));
+                hideLoadingIndicator();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -127,5 +137,17 @@ public class MyDrinksFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         void onFabMyDrinksClicked();
+    }
+
+    private void showLoadingIndicator(){
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        fab.setVisibility(View.GONE);
+    }
+
+    private void hideLoadingIndicator(){
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.VISIBLE);
     }
 }

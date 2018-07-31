@@ -1,30 +1,23 @@
 package com.example.steven.drinkpicker.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.adapters.DrinksBacRecyclerViewAdapter;
 import com.example.steven.drinkpicker.asynctasks.AsyncTaskCompleteListener;
 import com.example.steven.drinkpicker.asynctasks.DrinkBacAsyncTask;
-import com.example.steven.drinkpicker.bachelpers.BacUtils;
+import com.example.steven.drinkpicker.utils.BacUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

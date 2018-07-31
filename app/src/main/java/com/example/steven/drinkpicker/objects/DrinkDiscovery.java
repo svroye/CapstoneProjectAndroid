@@ -20,7 +20,7 @@ public class DrinkDiscovery extends Drink {
         this.rating = rating;
     }
 
-    public String getDrinkId(){
-        return getName() + "-" + (int) (getAlcoholConcentration()*10) + "-" + (int) (getRating()*10);
+    public String drinkID(){
+        return getName() + "-" + (int) (getAlcoholConcentration()*10);
     }
 }

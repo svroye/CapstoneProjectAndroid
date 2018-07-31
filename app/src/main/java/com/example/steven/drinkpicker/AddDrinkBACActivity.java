@@ -10,21 +10,17 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.TimeUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.steven.drinkpicker.bachelpers.DateTimeUtils;
+import com.example.steven.drinkpicker.utils.DateTimeUtils;
 import com.example.steven.drinkpicker.database.DrinkBacContract;
 import com.example.steven.drinkpicker.fragments.TimePickerFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

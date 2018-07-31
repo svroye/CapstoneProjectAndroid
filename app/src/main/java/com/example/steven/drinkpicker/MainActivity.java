@@ -9,9 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.steven.drinkpicker.firebasehelpers.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragment;
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment;
@@ -69,17 +67,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        // add listener to the bottom navigation
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         // set the toolbar
         setSupportActionBar(myToolbar);
 
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .add(R.id.fragment_container, new DiscoveryFragment())
-                .commit();
-
-        // add listener to the bottom navigation
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        if (savedInstanceState == null){
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container, new DiscoveryFragment())
+                    .commit();
+        }
     }
 
     @Override

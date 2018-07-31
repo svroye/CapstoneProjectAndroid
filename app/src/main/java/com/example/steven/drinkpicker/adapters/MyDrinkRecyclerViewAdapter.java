@@ -1,55 +1,46 @@
 package com.example.steven.drinkpicker.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment.OnListFragmentInteractionListener;
-import com.example.steven.drinkpicker.fragments.dummy.DummyContent.DummyItem;
+import com.example.steven.drinkpicker.objects.DrinkDiscovery;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<DrinkDiscovery> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyDrinkRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MyDrinkRecyclerViewAdapter(List<DrinkDiscovery> data, OnListFragmentInteractionListener listener) {
+        mValues = data;
         mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_drink, parent, false);
+                .inflate(R.layout.my_drinks_drink_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        DrinkDiscovery drink = mValues.get(position);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        holder.nameTv.setText(drink.getName());
+        holder.percentageTv.setText("" + drink.getAlcoholConcentration());
+
     }
 
     @Override
@@ -58,21 +49,15 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+
+        @BindView(R.id.mydrinks_item_image) ImageView pictureIv;
+        @BindView(R.id.mydrinks_item_name) TextView nameTv;
+        @BindView(R.id.mydrinks_item_percentage) TextView percentageTv;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            ButterKnife.bind(this, view);
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }

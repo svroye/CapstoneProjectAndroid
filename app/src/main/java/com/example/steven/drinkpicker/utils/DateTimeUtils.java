@@ -1,4 +1,4 @@
-package com.example.steven.drinkpicker.bachelpers;
+package com.example.steven.drinkpicker.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
