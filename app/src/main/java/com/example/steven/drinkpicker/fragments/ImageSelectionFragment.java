@@ -7,6 +7,7 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,11 @@ import com.example.steven.drinkpicker.R;
  * <pre>
  *     ImageSelectionFragment.newInstance(30).show(getSupportFragmentManager(), "dialog");
  * </pre>
- * <p>You activity (or fragment) needs to implement {@link ImageSelectionFragment.Listener}.</p>
  */
 public class ImageSelectionFragment extends BottomSheetDialogFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_ITEM_COUNT = "item_count";
-    private Listener mListener;
 
     // TODO: Customize parameters
     public static ImageSelectionFragment newInstance(int itemCount) {
@@ -52,28 +51,10 @@ public class ImageSelectionFragment extends BottomSheetDialogFragment {
         recyclerView.setAdapter(new ItemAdapter(getArguments().getInt(ARG_ITEM_COUNT)));
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        final Fragment parent = getParentFragment();
-//        if (parent != null) {
-//            mListener = (Listener) parent;
-//        } else {
-//            mListener = (Listener) context;
-//        }
-//    }
 
-    @Override
-    public void onDetach() {
-        mListener = null;
-        super.onDetach();
-    }
 
-    public interface Listener {
-        void onItemClicked(int position);
-    }
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
+    private class ViewHolder extends RecyclerView.ViewHolder{
 
         final TextView title;
         final ImageView icon;
@@ -83,7 +64,6 @@ public class ImageSelectionFragment extends BottomSheetDialogFragment {
             super(inflater.inflate(R.layout.fragment_item_list_dialog_item, parent, false));
             title = itemView.findViewById(R.id.option_title);
             icon = itemView.findViewById(R.id.option_icon);
-
         }
 
     }
@@ -91,6 +71,7 @@ public class ImageSelectionFragment extends BottomSheetDialogFragment {
     private class ItemAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private final int mItemCount;
+
 
         ItemAdapter(int itemCount) {
             mItemCount = itemCount;
@@ -103,7 +84,6 @@ public class ImageSelectionFragment extends BottomSheetDialogFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            //holder.text.setText(String.valueOf(position));
             if (position == 0) {
                 holder.icon.setImageResource(R.drawable.ic_action_image);
                 holder.title.setText(getString(R.string.take_picture));

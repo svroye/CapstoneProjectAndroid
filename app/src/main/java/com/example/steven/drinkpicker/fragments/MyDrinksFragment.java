@@ -1,5 +1,6 @@
 package com.example.steven.drinkpicker.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -43,6 +44,8 @@ import butterknife.ButterKnife;
  */
 public class MyDrinksFragment extends Fragment {
 
+    public final String LOG_TAG = "MyDrinksFragment";
+
     @BindView(R.id.mydrinks_recyclerview) RecyclerView recyclerView;
     @BindView(R.id.fab_mydrinks) FloatingActionButton fab;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -52,7 +55,11 @@ public class MyDrinksFragment extends Fragment {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private List<DrinkDiscovery> drinksList;
+    private DatabaseReference db;
+
+    private MyDrinkRecyclerViewAdapter adapter;
+
+    private List<DrinkDiscovery> dataList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -78,25 +85,27 @@ public class MyDrinksFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        drinksList = new ArrayList<>();
-        initializeData();
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
+                        false);
+        adapter = new MyDrinkRecyclerViewAdapter(mListener);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+
+        setData();
         return view;
     }
 
-    private void initializeData() {
-        DatabaseReference db = mDatabase.child("users").child(mAuth.getCurrentUser().getUid());
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void setData() {
+        db = mDatabase.child("users").child(mAuth.getCurrentUser().getUid());
+        db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> data = dataSnapshot.getChildren();
-                for(DataSnapshot d: data) {
-                    DrinkDiscovery drinkDiscovery = d.getValue(DrinkDiscovery.class);
-                    drinksList.add(drinkDiscovery);
+                dataList = new ArrayList<>();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    DrinkDiscovery drinkDiscovery = snapshot.getValue(DrinkDiscovery.class);
+                    dataList.add(drinkDiscovery);
                 }
-                LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-                        false);
-                recyclerView.setLayoutManager(manager);
-                recyclerView.setAdapter(new MyDrinkRecyclerViewAdapter(drinksList, mListener));
+                adapter.swapData(dataList);
                 hideLoadingIndicator();
             }
 
@@ -104,9 +113,15 @@ public class MyDrinksFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                DrinkDiscovery drinkDiscovery = dataSnapshot.getValue(DrinkDiscovery.class);
+//                Log.d(LOG_TAG, drinkDiscovery.getName());
+//                adapter.addItem(drinkDiscovery);
+//            }
+
         });
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -140,12 +155,15 @@ public class MyDrinksFragment extends Fragment {
     }
 
     private void showLoadingIndicator(){
+        Log.d(LOG_TAG, "Show ProgressBar");
+
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         fab.setVisibility(View.GONE);
     }
 
     private void hideLoadingIndicator(){
+        Log.d(LOG_TAG, "Hide ProgressBar");
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         fab.setVisibility(View.VISIBLE);

@@ -12,6 +12,7 @@ import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment.OnListFragmentInteractionListener;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,11 +20,10 @@ import butterknife.ButterKnife;
 
 public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DrinkDiscovery> mValues;
+    private List<DrinkDiscovery> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyDrinkRecyclerViewAdapter(List<DrinkDiscovery> data, OnListFragmentInteractionListener listener) {
-        mValues = data;
+    public MyDrinkRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
         mListener = listener;
     }
 
@@ -45,7 +45,18 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
 
     @Override
     public int getItemCount() {
+        if (null == mValues) return 0;
         return mValues.size();
+    }
+
+    public void addItem(DrinkDiscovery drinkDiscovery) {
+        mValues.add(drinkDiscovery);
+        notifyDataSetChanged();
+    }
+
+    public void swapData(List<DrinkDiscovery> dataList) {
+        mValues = dataList;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
