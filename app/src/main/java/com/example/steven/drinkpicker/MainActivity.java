@@ -99,7 +99,10 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode){
             case ADD_DRINK_BAC_REQUEST_CODE:
                 if (resultCode == RESULT_OK) {
-
+                    BloodAlcoholConcentrationFragment fragment = (BloodAlcoholConcentrationFragment)
+                            getSupportFragmentManager()
+                            .findFragmentById(R.id.fragment_container);
+                    fragment.getBac();
                 }
         }
     }

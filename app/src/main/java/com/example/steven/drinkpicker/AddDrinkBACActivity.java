@@ -69,11 +69,11 @@ public class AddDrinkBACActivity extends AppCompatActivity
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_CANCELED ,returnIntent);
             finish();
-            //overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         } else if (itemId == R.id.bac_menu_save) {
             saveDrink();
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK ,returnIntent);
             finish();
-            //overridePendingTransition(R.anim.stay, R.anim.slide_top_to_bottom);
         }
         return true;
     }
@@ -163,10 +163,7 @@ public class AddDrinkBACActivity extends AppCompatActivity
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_ALCOHOL_PERCENTAGE, percentage);
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_DRINK_VOLUME, volume);
         cv.put(DrinkBacContract.DrinkBacEntry.COLUMN_START_TIME, timeInMillis);
-        Uri returnUri = resolver.insert(DrinkBacContract.DrinkBacEntry.CONTENT_URI, cv);
-        if (returnUri != null) {
-            Toast.makeText(this, "" + returnUri, Toast.LENGTH_SHORT).show();
-        }
+        resolver.insert(DrinkBacContract.DrinkBacEntry.CONTENT_URI, cv);
     }
 
 }

@@ -55,13 +55,15 @@ public class BloodAlcoholConcentrationFragment extends Fragment
         LinearLayoutManager manager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
-        (new DrinkBacAsyncTask(getContext(), this)).execute();
-        double bac = BacUtils.calculateTotalBac(getContext());
-        Log.d("BacFragment", "Total BAC is " + bac);
-        bacValue.setText(getString(R.string.bac_value, bac));
+        getBac();
         return view;
     }
 
+    public void getBac(){
+        (new DrinkBacAsyncTask(getContext(), this)).execute();
+        double bac = BacUtils.calculateTotalBac(getContext());
+        bacValue.setText(getString(R.string.bac_value, bac));
+    }
 
 
     @Override
@@ -79,6 +81,7 @@ public class BloodAlcoholConcentrationFragment extends Fragment
     public interface OnFragmentInteractionListener {
         void onFabBacClicked();
     }
+
 
     @Override
     public void onAttach(Context context) {

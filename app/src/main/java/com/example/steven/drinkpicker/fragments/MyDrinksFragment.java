@@ -113,13 +113,6 @@ public class MyDrinksFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                DrinkDiscovery drinkDiscovery = dataSnapshot.getValue(DrinkDiscovery.class);
-//                Log.d(LOG_TAG, drinkDiscovery.getName());
-//                adapter.addItem(drinkDiscovery);
-//            }
-
         });
     }
 
