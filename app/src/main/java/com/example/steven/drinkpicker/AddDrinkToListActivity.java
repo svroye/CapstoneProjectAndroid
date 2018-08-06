@@ -2,8 +2,10 @@ package com.example.steven.drinkpicker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,28 +13,36 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
+import com.example.steven.drinkpicker.utils.FileUtils;
 import com.example.steven.drinkpicker.utils.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.ImageSelectionFragment;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
+import com.example.steven.drinkpicker.utils.ImageUtils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
-public class AddDrinkToListActivity extends AppCompatActivity {
+public class AddDrinkToListActivity extends AppCompatActivity 
+        implements ImageSelectionFragment.OnItemSelectedListener{
 
+    private static final String LOG_TAG = "AddDrinkToListActivity";
     @BindView(R.id.toolbar_list) Toolbar myToolbar;
 
     @BindView(R.id.location_container) RelativeLayout locationContainer;
     @BindView(R.id.image_container) RelativeLayout imageContainer;
+    @BindView(R.id.drink_image) ImageView drinkImageView;
     @BindView(R.id.ratingBar) RatingBar ratingBar;
     @BindView(R.id.list_name_textInputEditText) TextInputEditText nameEditText;
     @BindView(R.id.list_alcohol_percentage_textInputEditText) TextInputEditText percentageEditText;
 
+    private ImageSelectionFragment imageSelectionFragment;
     private boolean isSaveButtonEnabled;
     private String name;
     private double percentage;
@@ -59,7 +69,9 @@ public class AddDrinkToListActivity extends AppCompatActivity {
         imageContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ImageSelectionFragment.newInstance(2).show(getSupportFragmentManager(), "imagefragment");
+                imageSelectionFragment = ImageSelectionFragment.newInstance(2);
+                imageSelectionFragment.show(getSupportFragmentManager(), "imagefragment");
+
             }
         });
 
@@ -69,7 +81,6 @@ public class AddDrinkToListActivity extends AppCompatActivity {
                 rating = (double) v;
             }
         });
-
 
     }
 
@@ -135,5 +146,35 @@ public class AddDrinkToListActivity extends AppCompatActivity {
         }
         invalidateOptionsMenu();
     }
+
+    @Override
+    public void onListItemSelectedListener(int position) {
+        if (position == 0) {
+            // "Take picture" option selected
+            
+        } else {
+            // "Select image from gallery" option selected
+            Intent intent = ImageUtils.getIntentToOpenGallery();
+            if (intent.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                        ImageUtils.REQUEST_IMAGE_GET);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == ImageUtils.REQUEST_IMAGE_GET) {
+                Uri uri = data.getData();
+                Log.d(LOG_TAG, uri.toString());
+                Picasso.get()
+                        .load(uri)
+                        .fit()
+                        .into(drinkImageView);
+            }
+        }
+    }
+
 
 }
