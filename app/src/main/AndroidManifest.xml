@@ -3,19 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.steven.drinkpicker">
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18"/>
 
     <application
         android:allowBackup="true"
@@ -48,11 +42,12 @@
         <provider
             android:name=".providers.DrinkBacContentProvider"
             android:authorities="com.example.steven.drinkpicker"
-            android:exported="false"></provider>
+            android:exported="false">
+        </provider>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.steven.drinkpicker"
+            android:authorities="com.example.steven.imagepicker"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -60,6 +55,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_API_KEY"/>
 
     </application>
 

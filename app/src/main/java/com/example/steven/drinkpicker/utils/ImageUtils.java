@@ -24,27 +24,33 @@ public class ImageUtils {
     private static final String TAG = "ImageUtils";
 
     public static final int REQUEST_IMAGE_GET = 1;
-
-//    public static final int MY_PERMISSIONS_REQUEST = 3;
-
+    public static final int REQUEST_IMAGE_CAPTURE = 2;
 
     public static Intent getIntentToOpenGallery(){
         Intent intentToOpenGallery;
-        if (Build.VERSION.SDK_INT < 19) {
-            Log.d(TAG, "SDK_INT < 19");
-            intentToOpenGallery = new Intent(Intent.ACTION_GET_CONTENT);
-        } else {
-            Log.d(TAG, "SDK_INT >= 19");
-            intentToOpenGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intentToOpenGallery.addCategory(Intent.CATEGORY_OPENABLE);
-        }
+        intentToOpenGallery = new Intent(Intent.ACTION_GET_CONTENT);
         intentToOpenGallery.setType("image/*");
         return intentToOpenGallery;
     }
 
+    public static Intent getIntentToCamera(Context context){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri uri = getUriForCameraPicture(context);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        return intent;
+    }
 
-
-
+    public static Uri getUriForCameraPicture(Context context){
+        Uri uri = null;
+        try {
+            File file = FileUtils.createImageFile(context);
+            uri = FileProvider.getUriForFile(context,
+                    "com.example.steven.imagepicker", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uri;
+    }
 
 //    public static void requestPermissions(Context context, Activity activity) {
 //        // Here, thisActivity is the current activity

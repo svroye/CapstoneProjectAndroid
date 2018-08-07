@@ -2,8 +2,10 @@ package com.example.steven.drinkpicker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +24,15 @@ import com.example.steven.drinkpicker.utils.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.ImageSelectionFragment;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
 import com.example.steven.drinkpicker.utils.ImageUtils;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +43,7 @@ public class AddDrinkToListActivity extends AppCompatActivity
 
     private static final String LOG_TAG = "AddDrinkToListActivity";
     @BindView(R.id.toolbar_list) Toolbar myToolbar;
+    private int PLACE_PICKER_REQUEST = 1;
 
     @BindView(R.id.location_container) RelativeLayout locationContainer;
     @BindView(R.id.image_container) RelativeLayout imageContainer;
@@ -47,6 +57,7 @@ public class AddDrinkToListActivity extends AppCompatActivity
     private String name;
     private double percentage;
     private double rating;
+    private Uri cameraPictureUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,14 @@ public class AddDrinkToListActivity extends AppCompatActivity
         locationContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build((Activity) (AddDrinkToListActivity.this)), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -151,12 +169,17 @@ public class AddDrinkToListActivity extends AppCompatActivity
     public void onListItemSelectedListener(int position) {
         if (position == 0) {
             // "Take picture" option selected
-            
+            Intent intent = ImageUtils.getIntentToCamera(this);
+            cameraPictureUri= (Uri) intent.getExtras().get(MediaStore.EXTRA_OUTPUT);
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(intent, ImageUtils.REQUEST_IMAGE_CAPTURE);
+            }
         } else {
             // "Select image from gallery" option selected
+            // get intent and start it
             Intent intent = ImageUtils.getIntentToOpenGallery();
             if (intent.resolveActivity(getPackageManager()) != null){
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                startActivityForResult(intent,
                         ImageUtils.REQUEST_IMAGE_GET);
             }
         }
@@ -165,16 +188,22 @@ public class AddDrinkToListActivity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            // image picker/camera intent was successful
             if (requestCode == ImageUtils.REQUEST_IMAGE_GET) {
+                // option for the image picker from the gallery
+                // get uri to the selected picture and set it to the image view
                 Uri uri = data.getData();
-                Log.d(LOG_TAG, uri.toString());
                 Picasso.get()
                         .load(uri)
                         .fit()
                         .into(drinkImageView);
+            } else if (requestCode == ImageUtils.REQUEST_IMAGE_CAPTURE) {
+                Picasso.get()
+                        .load(cameraPictureUri)
+                        .fit()
+                        .into(drinkImageView);
             }
+
         }
     }
-
-
 }
