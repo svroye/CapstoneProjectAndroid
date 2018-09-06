@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.steven.drinkpicker.objects.Drink;
 import com.example.steven.drinkpicker.utils.FileUtils;
 import com.example.steven.drinkpicker.utils.FirebaseUtils;
 import com.example.steven.drinkpicker.fragments.ImageSelectionFragment;
@@ -32,7 +34,14 @@ import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -85,6 +94,9 @@ public class AddDrinkToListActivity extends AppCompatActivity
                 rating = (double) v;
             }
         });
+
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference a = db.child("users").child("aaaa");
     }
 
     @OnClick({R.id.list_location_textInputLayout, R.id.list_location_textInputEditText})
@@ -112,6 +124,7 @@ public class AddDrinkToListActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_add_drink_list, menu);
         menu.findItem(R.id.list_menu_save).setEnabled(isSaveButtonEnabled);
+        //menu.findItem(R.id.list_menu_save).setEnabled(true);
         return true;
     }
 
@@ -132,10 +145,15 @@ public class AddDrinkToListActivity extends AppCompatActivity
     }
 
     private void saveDrinkEntry() {
-        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // get the user ID for storing the drink info
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // create new DrinkDiscovery object
         DrinkDiscovery drinkDiscovery = new DrinkDiscovery(name, percentage, rating,
-                locationId, cameraPictureUri.toString());
-        FirebaseUtils.addDrinkForUser(user, drinkDiscovery);
+                locationId, null);
+
+        FirebaseUtils.addDrink(this, userId, drinkDiscovery, cameraPictureUri);
+
     }
 
     @Override

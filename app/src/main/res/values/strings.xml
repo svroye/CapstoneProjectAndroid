@@ -58,5 +58,9 @@
     <string name="action_register">Register</string>
     <string name="log_out">Log out</string>
     <string name="hint_location">Location</string>
+    <string name="no_drinks_added_label">You have not added any drinks yet</string>
+    <string name="error_message_loading_data">Error with retrieving the data</string>
+    <string name="key_name">name</string>
+    <string name="key_alcohol_percentage">alcoholPercentage</string>
 
 </resources>

@@ -4,17 +4,21 @@ public class DrinkDiscovery extends Drink {
 
     private double rating;
     private String placeId;
-    private String photoUri;
+    private String imageUri;
 
     public DrinkDiscovery() {
     }
 
+    public DrinkDiscovery(Drink drink, double rating, String placeId, String imageUri) {
+        this(drink.getName(), drink.getAlcoholConcentration(), rating, placeId, imageUri);
+    }
+
     public DrinkDiscovery(String name, double alcoholConcentration, double rating, String placeId,
-                          String photoUri) {
+                          String imageUri) {
         super(name, alcoholConcentration);
         this.rating = rating;
         this.placeId = placeId;
-        this.photoUri = photoUri;
+        this.imageUri = imageUri;
     }
 
     public double getRating() {
@@ -33,15 +37,11 @@ public class DrinkDiscovery extends Drink {
         this.placeId = placeId;
     }
 
-    public String getPhotoUri() {
-        return photoUri;
+    public String getImageUri() {
+        return imageUri;
     }
 
-    public void setPhotoUri(String photoUri) {
-        this.photoUri = photoUri;
-    }
-
-    public String drinkID(){
-        return getName() + "-" + (int) (getAlcoholConcentration()*10);
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }

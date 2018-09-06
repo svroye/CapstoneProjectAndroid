@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,12 +16,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.adapters.DrinksMyListRecyclerViewAdapter;
 import com.example.steven.drinkpicker.adapters.MyDrinkRecyclerViewAdapter;
 import com.example.steven.drinkpicker.objects.Drink;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
+import com.example.steven.drinkpicker.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -35,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A fragment representing a list of Items.
@@ -49,6 +54,7 @@ public class MyDrinksFragment extends Fragment {
     @BindView(R.id.mydrinks_recyclerview) RecyclerView recyclerView;
     @BindView(R.id.fab_mydrinks) FloatingActionButton fab;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.emptyView) TextView emptyTextView;
 
     private OnListFragmentInteractionListener mListener;
 
@@ -75,35 +81,39 @@ public class MyDrinksFragment extends Fragment {
         ButterKnife.bind(this, view);
         showLoadingIndicator();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onFabMyDrinksClicked();
-            }
-        });
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
                         false);
-        adapter = new MyDrinkRecyclerViewAdapter(mListener);
+        adapter = new MyDrinkRecyclerViewAdapter(mListener, getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
-
-        setData();
+        initializeScreen();
         return view;
     }
 
-    private void setData() {
-        db = mDatabase.child("users").child(mAuth.getCurrentUser().getUid());
+    @OnClick(R.id.fab_mydrinks)
+    public void addDrink() {
+        mListener.onFabMyDrinksClicked();
+    }
+
+    private void initializeScreen() {
+        db = mDatabase.child(FirebaseUtils.CHILD_USERS).child(mAuth.getCurrentUser().getUid());
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataList = new ArrayList<>();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     DrinkDiscovery drinkDiscovery = snapshot.getValue(DrinkDiscovery.class);
+                    Log.d(LOG_TAG, drinkDiscovery.getImageUri());
                     dataList.add(drinkDiscovery);
+                }
+
+                if (dataList.size() == 0) {
+                    emptyTextView.setVisibility(View.VISIBLE);
+                } else {
+                    emptyTextView.setVisibility(View.INVISIBLE);
                 }
                 adapter.swapData(dataList);
                 hideLoadingIndicator();
@@ -111,10 +121,14 @@ public class MyDrinksFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(LOG_TAG, "An error occurred when loading the data: " + databaseError);
+                emptyTextView.setVisibility(View.INVISIBLE);
+                Snackbar.make(recyclerView, R.string.error_message_loading_data, Snackbar.LENGTH_LONG).show();
+                hideLoadingIndicator();
             }
         });
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -147,6 +161,7 @@ public class MyDrinksFragment extends Fragment {
         void onFabMyDrinksClicked();
     }
 
+    @SuppressLint("RestrictedApi")
     private void showLoadingIndicator(){
         Log.d(LOG_TAG, "Show ProgressBar");
 
@@ -155,6 +170,7 @@ public class MyDrinksFragment extends Fragment {
         fab.setVisibility(View.GONE);
     }
 
+    @SuppressLint("RestrictedApi")
     private void hideLoadingIndicator(){
         Log.d(LOG_TAG, "Hide ProgressBar");
         progressBar.setVisibility(View.GONE);

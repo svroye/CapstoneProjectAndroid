@@ -1,5 +1,6 @@
 package com.example.steven.drinkpicker.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import com.example.steven.drinkpicker.R;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment.OnListFragmentInteractionListener;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
+import com.example.steven.drinkpicker.utils.GlideApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,9 +26,11 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
 
     private List<DrinkDiscovery> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private Context context;
 
-    public MyDrinkRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+    public MyDrinkRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context) {
         mListener = listener;
+        this.context = context;
     }
 
     @Override
@@ -40,6 +46,11 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
 
         holder.nameTv.setText(drink.getName());
         holder.percentageTv.setText("" + drink.getAlcoholConcentration());
+        StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(drink.getImageUri());
+
+        GlideApp.with(context)
+                .load(gsReference)
+                .into(holder.pictureIv);
 
     }
 
@@ -71,4 +82,6 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
         }
 
     }
+
+
 }

@@ -1,5 +1,8 @@
 package com.example.steven.drinkpicker.objects;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Class representing a drink
  */
@@ -31,4 +34,9 @@ public class Drink {
     public void setAlcoholConcentration(double alcoholConcentration) {
         this.alcoholPercentage = alcoholConcentration;
     }
+
+    public String drinkID(){
+        return name + "-" + (int) (alcoholPercentage*10);
+    }
+
 }
