@@ -85,8 +85,6 @@ public class MyDrinksFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
-//        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-//                        false);
         adapter = new MyDrinkRecyclerViewAdapter(mListener, getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -106,8 +104,11 @@ public class MyDrinksFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataList = new ArrayList<>();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    DrinkDiscovery drinkDiscovery = snapshot.getValue(DrinkDiscovery.class);
-                    Log.d(LOG_TAG, drinkDiscovery.getImageUri());
+
+                    DrinkDiscovery drinkDiscovery = FirebaseUtils.initializeDrinkItem(snapshot,
+                            getContext());
+
+                    Log.d(LOG_TAG, drinkDiscovery.toString());
                     dataList.add(drinkDiscovery);
                 }
 
@@ -116,6 +117,7 @@ public class MyDrinksFragment extends Fragment {
                 } else {
                     emptyTextView.setVisibility(View.INVISIBLE);
                 }
+
                 adapter.swapData(dataList);
                 hideLoadingIndicator();
             }

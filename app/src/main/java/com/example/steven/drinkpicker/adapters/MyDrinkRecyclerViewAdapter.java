@@ -46,7 +46,7 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
 
         holder.nameTv.setText(drink.getName());
         holder.percentageTv.setText(String.valueOf(drink.getAlcoholConcentration()));
-        StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(drink.getImageUri());
+        StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(drink.getImageUris().get(0));
 
         GlideApp.with(context)
                 .load(gsReference)

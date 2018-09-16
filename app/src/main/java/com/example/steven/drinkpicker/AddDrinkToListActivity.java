@@ -148,9 +148,12 @@ public class AddDrinkToListActivity extends AppCompatActivity
         // get the user ID for storing the drink info
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+
         // create new DrinkDiscovery object
         DrinkDiscovery drinkDiscovery = new DrinkDiscovery(name, percentage, rating,
-                locationId, null);
+                null, null);
+
+        drinkDiscovery.addPlace(locationId);
 
         FirebaseUtils.addDrink(this, userId, drinkDiscovery, cameraPictureUri);
 

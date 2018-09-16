@@ -62,5 +62,8 @@
     <string name="error_message_loading_data">Error with retrieving the data</string>
     <string name="key_name">name</string>
     <string name="key_alcohol_percentage">alcoholPercentage</string>
+    <string name="key_rating">rating</string>
+    <string name="key_imageUris">imageUris</string>
+    <string name="key_placeIds">placeIds</string>
 
 </resources>

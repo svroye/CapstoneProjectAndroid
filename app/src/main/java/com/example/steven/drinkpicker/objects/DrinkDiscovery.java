@@ -1,24 +1,40 @@
 package com.example.steven.drinkpicker.objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DrinkDiscovery extends Drink {
 
     private double rating;
-    private String placeId;
-    private String imageUri;
+    private List<String> placeIds;
+    private List<String> imageUris;
 
     public DrinkDiscovery() {
+        this(null, 0.0, 0.0, null, null );
     }
 
-    public DrinkDiscovery(Drink drink, double rating, String placeId, String imageUri) {
-        this(drink.getName(), drink.getAlcoholConcentration(), rating, placeId, imageUri);
+    public DrinkDiscovery(Drink drink, double rating, ArrayList<String> placeIds, ArrayList<String> imageUris) {
+        this(drink.getName(), drink.getAlcoholConcentration(), rating, placeIds, imageUris);
     }
 
-    public DrinkDiscovery(String name, double alcoholConcentration, double rating, String placeId,
-                          String imageUri) {
+    public DrinkDiscovery(String name, double alcoholConcentration, double rating, ArrayList<String> placeIds,
+                          ArrayList<String> imageUris) {
         super(name, alcoholConcentration);
         this.rating = rating;
-        this.placeId = placeId;
-        this.imageUri = imageUri;
+
+        if (null == placeIds) {
+            this.placeIds = new ArrayList<>();
+        } else {
+            this.placeIds = placeIds;
+        }
+
+        if (null == imageUris) {
+            this.imageUris = new ArrayList<>();
+        }
+        else {
+            this.imageUris = imageUris;
+        }
+
     }
 
     public double getRating() {
@@ -29,19 +45,36 @@ public class DrinkDiscovery extends Drink {
         this.rating = rating;
     }
 
-    public String getPlaceId() {
-        return placeId;
+    public List<String> getPlaceIds() {
+        return placeIds;
     }
 
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    public void setPlaceIds(ArrayList<String> placeIds) {
+        this.placeIds = placeIds;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public List<String> getImageUris() {
+        return imageUris;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public void setImageUris(ArrayList<String> imageUris) {
+        this.imageUris = imageUris;
+    }
+
+    public void addImage(String imageUri) {
+        this.imageUris.add(imageUri);
+    }
+
+    public void addPlace(String placeId){
+        this.placeIds.add(placeId);
+    }
+
+    @Override
+    public String toString() {
+       return "\nDrink:\t\t" + getName() +
+               "\nAlcohol percentage:\t\t" + getAlcoholConcentration() +
+               "\nRating\t\t" + this.rating +
+               "\nPlaces:\t\t" + this.placeIds +
+               "\nImageUris:\t\t" + this.imageUris;
     }
 }
