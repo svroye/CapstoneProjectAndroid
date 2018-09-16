@@ -84,8 +84,9 @@ public class MyDrinksFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-                        false);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+//        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
+//                        false);
         adapter = new MyDrinkRecyclerViewAdapter(mListener, getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);

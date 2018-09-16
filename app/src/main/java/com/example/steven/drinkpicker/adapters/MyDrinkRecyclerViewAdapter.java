@@ -45,11 +45,12 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
         DrinkDiscovery drink = mValues.get(position);
 
         holder.nameTv.setText(drink.getName());
-        holder.percentageTv.setText("" + drink.getAlcoholConcentration());
+        holder.percentageTv.setText(String.valueOf(drink.getAlcoholConcentration()));
         StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(drink.getImageUri());
 
         GlideApp.with(context)
                 .load(gsReference)
+                //.load("https://www.thecocktailproject.com/sites/default/files/incredible-thumb-DeKuyper-A-to-Z-Kamikaze.jpg")
                 .into(holder.pictureIv);
 
     }
