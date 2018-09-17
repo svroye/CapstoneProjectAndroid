@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,16 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.steven.drinkpicker.R;
-import com.example.steven.drinkpicker.adapters.DrinksMyListRecyclerViewAdapter;
 import com.example.steven.drinkpicker.adapters.MyDrinkRecyclerViewAdapter;
-import com.example.steven.drinkpicker.objects.Drink;
 import com.example.steven.drinkpicker.objects.DrinkDiscovery;
 import com.example.steven.drinkpicker.utils.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 
 /**
  * A fragment representing a list of Items.
@@ -47,7 +41,7 @@ import butterknife.OnClick;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MyDrinksFragment extends Fragment {
+public class MyDrinksFragment extends Fragment implements MyDrinkRecyclerViewAdapter.DrinkItemClickListener{
 
     public final String LOG_TAG = "MyDrinksFragment";
 
@@ -85,12 +79,13 @@ public class MyDrinksFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
-        adapter = new MyDrinkRecyclerViewAdapter(mListener, getContext());
+        adapter = new MyDrinkRecyclerViewAdapter(mListener, getContext(), this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         initializeScreen();
         return view;
     }
+
 
     @OnClick(R.id.fab_mydrinks)
     public void addDrink() {
@@ -151,6 +146,16 @@ public class MyDrinksFragment extends Fragment {
     }
 
     /**
+     * called when a list item is clicked
+     * actions to be taken are sent to the enclosing activity
+     * @param drinkDiscovery object which was clicked
+     */
+    @Override
+    public void onDrinkItemClicked(DrinkDiscovery drinkDiscovery ) {
+        mListener.onDrinkItemClicked(drinkDiscovery);
+    }
+
+    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
@@ -162,6 +167,7 @@ public class MyDrinksFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         void onFabMyDrinksClicked();
+        void onDrinkItemClicked(DrinkDiscovery drinkDiscovery);
     }
 
     @SuppressLint("RestrictedApi")
@@ -180,4 +186,5 @@ public class MyDrinksFragment extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         fab.setVisibility(View.VISIBLE);
     }
+
 }

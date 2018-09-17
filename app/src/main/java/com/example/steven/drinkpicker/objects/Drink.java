@@ -1,12 +1,15 @@
 package com.example.steven.drinkpicker.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Class representing a drink
  */
-public class Drink {
+public abstract class Drink implements Parcelable {
 
     private String name;
     private double alcoholPercentage;
@@ -17,6 +20,12 @@ public class Drink {
     public Drink(String name, double alcoholPercentage) {
         this.name = name;
         this.alcoholPercentage = alcoholPercentage;
+    }
+
+
+    protected Drink(Parcel in) {
+        name = in.readString();
+        alcoholPercentage = in.readDouble();
     }
 
     public String getName() {
@@ -35,8 +44,13 @@ public class Drink {
         this.alcoholPercentage = alcoholConcentration;
     }
 
-    public String drinkID(){
-        return name + "-" + (int) (alcoholPercentage*10);
+    public String drinkID() {
+        return name + "-" + (int) (alcoholPercentage * 10);
     }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeDouble(alcoholPercentage);
+    }
 }

@@ -27,10 +27,17 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
     private List<DrinkDiscovery> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Context context;
+    private DrinkItemClickListener drinkItemClickListener;
 
-    public MyDrinkRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context) {
-        mListener = listener;
+    public interface DrinkItemClickListener {
+        void onDrinkItemClicked(DrinkDiscovery drinkDiscovery);
+    }
+
+    public MyDrinkRecyclerViewAdapter(OnListFragmentInteractionListener listener, Context context,
+                                      DrinkItemClickListener drinkItemClickListener) {
+        this.mListener = listener;
         this.context = context;
+        this.drinkItemClickListener = drinkItemClickListener;
     }
 
     @Override
@@ -71,7 +78,7 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.mydrinks_item_image) ImageView pictureIv;
         @BindView(R.id.mydrinks_item_name) TextView nameTv;
@@ -80,8 +87,14 @@ public class MyDrinkRecyclerViewAdapter extends RecyclerView.Adapter<MyDrinkRecy
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            drinkItemClickListener.onDrinkItemClicked(mValues.get(position));
+        }
     }
 
 

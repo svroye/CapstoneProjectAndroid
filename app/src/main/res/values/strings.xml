@@ -65,5 +65,10 @@
     <string name="key_rating">rating</string>
     <string name="key_imageUris">imageUris</string>
     <string name="key_placeIds">placeIds</string>
+    <string name="key_drink_discovery">drink-discovery</string>
+    <string name="detail_placesLabel">Places</string>
+    <string name="detail_imagesLabel">Images</string>
+
+    <string name="percentage_formatter">%1$.1f%%</string>
 
 </resources>

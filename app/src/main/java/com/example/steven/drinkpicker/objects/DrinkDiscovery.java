@@ -1,5 +1,9 @@
 package com.example.steven.drinkpicker.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +14,7 @@ public class DrinkDiscovery extends Drink {
     private List<String> imageUris;
 
     public DrinkDiscovery() {
-        this(null, 0.0, 0.0, null, null );
+        this(null, 0.0, 0.0, null, null);
     }
 
     public DrinkDiscovery(Drink drink, double rating, ArrayList<String> placeIds, ArrayList<String> imageUris) {
@@ -30,12 +34,31 @@ public class DrinkDiscovery extends Drink {
 
         if (null == imageUris) {
             this.imageUris = new ArrayList<>();
-        }
-        else {
+        } else {
             this.imageUris = imageUris;
         }
 
     }
+
+
+    protected DrinkDiscovery(Parcel in) {
+        super(in);
+        rating = in.readDouble();
+        placeIds = in.createStringArrayList();
+        imageUris = in.createStringArrayList();
+    }
+
+    public static final Creator<DrinkDiscovery> CREATOR = new Creator<DrinkDiscovery>() {
+        @Override
+        public DrinkDiscovery createFromParcel(Parcel in) {
+            return new DrinkDiscovery(in);
+        }
+
+        @Override
+        public DrinkDiscovery[] newArray(int size) {
+            return new DrinkDiscovery[size];
+        }
+    };
 
     public double getRating() {
         return rating;
@@ -65,16 +88,29 @@ public class DrinkDiscovery extends Drink {
         this.imageUris.add(imageUri);
     }
 
-    public void addPlace(String placeId){
+    public void addPlace(String placeId) {
         this.placeIds.add(placeId);
     }
 
     @Override
     public String toString() {
-       return "\nDrink:\t\t" + getName() +
-               "\nAlcohol percentage:\t\t" + getAlcoholConcentration() +
-               "\nRating\t\t" + this.rating +
-               "\nPlaces:\t\t" + this.placeIds +
-               "\nImageUris:\t\t" + this.imageUris;
+        return "\nDrink:\t\t" + getName() +
+                "\nAlcohol percentage:\t\t" + getAlcoholConcentration() +
+                "\nRating\t\t" + this.rating +
+                "\nPlaces:\t\t" + this.placeIds +
+                "\nImageUris:\t\t" + this.imageUris;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        super.writeToParcel(parcel, i);
+        parcel.writeDouble(rating);
+        parcel.writeStringList(placeIds);
+        parcel.writeStringList(imageUris);
     }
 }

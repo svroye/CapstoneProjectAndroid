@@ -14,6 +14,7 @@ import com.example.steven.drinkpicker.fragments.BloodAlcoholConcentrationFragmen
 import com.example.steven.drinkpicker.fragments.DiscoveryFragment;
 import com.example.steven.drinkpicker.fragments.MyDrinksFragment;
 import com.example.steven.drinkpicker.fragments.SettingsFragment;
+import com.example.steven.drinkpicker.objects.DrinkDiscovery;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,6 +93,13 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, AddDrinkToListActivity.class);
         startActivityForResult(intent, ADD_DRINK_LIST_REQUEST_CODE);
         overridePendingTransition( R.anim.slide_bottom_to_top, R.anim.stay);
+    }
+
+    @Override
+    public void onDrinkItemClicked(DrinkDiscovery drinkDiscovery) {
+        Intent intent = new Intent(MainActivity.this, MyDrinkDetailActivity.class);
+        intent.putExtra(getString(R.string.key_drink_discovery), drinkDiscovery);
+        startActivity(intent);
     }
 
     @Override
